@@ -10,13 +10,22 @@ import SwiftUI
 import SwiftUI
 
 struct SplashScreenView: View {
-    let persistenceController = PersistenceController.shared
     
+    // MARK: Properties
+    
+    let persistenceController = PersistenceController.shared
+   
+    @StateObject private var viewModel: ViewModel
     @State var isActive : Bool = false
     @State private var size = 0.8
     @State private var opacity = 0.5
     
-    // Customise your SplashScreen here
+    // MARK: Life Cycle
+
+    init() {
+        _viewModel = .init(wrappedValue: .init())
+    }
+    
     var body: some View {
         if isActive {
             PicturesView()
@@ -24,10 +33,10 @@ struct SplashScreenView: View {
         } else {
             VStack {
                 VStack {
-                    Image("logo-image").resizable()
+                    Image(viewModel.logoImage).resizable()
                     
                         .aspectRatio(contentMode: .fit)
-                    Text("Loading...")
+                    Text(viewModel.loadingText)
                         .font(.largeTitle).bold()
                         .foregroundColor(.black.opacity(0.80))
                     Spacer()

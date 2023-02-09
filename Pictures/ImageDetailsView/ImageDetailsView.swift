@@ -8,45 +8,58 @@
 import SwiftUI
 
 struct ImageDetailsView: View {
-    let image: UIImage?
-    let location: String?
+    
+    // MARK: Properties
+    
+    @StateObject private var viewModel: ViewModel
+    
+    // MARK: Life Cycle
+
+    init(viewModel: ViewModel) {
+        _viewModel = .init(wrappedValue: viewModel)
+    }
     
     var body: some View {
         NavigationStack {
             VStack {
-                Image(uiImage: image ?? UIImage(named: "template-image")!)
+                Image(uiImage: viewModel.image ?? UIImage(named: viewModel.templateImage)!)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
                     .padding(.init(top: 0, leading: 20, bottom: 0, trailing: 20))
                 VStack {
-                    Image(uiImage:UIImage(named: "location-icon")!)
+                    Image(uiImage:UIImage(named: viewModel.locationIcon)!)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 50, height: 50)
                         .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
                         .padding(.init(top: 0, leading: 20, bottom: 0, trailing: 20))
-                    Text(location ?? "")
+                    Text(viewModel.location ?? "")
                         .font(.subheadline)
                         .foregroundColor(.black)
+                        .multilineTextAlignment(.center)
                 }.padding(.init(top: 40, leading: 20, bottom: 0, trailing: 20))
                 Spacer()
             }.padding(.init(top: 25, leading: 20, bottom: 0, trailing: 20))
                 .toolbar {
                     ToolbarItem(placement: .principal) {
-                        Text("Picture Detail")
-                            .font(.largeTitle)
-                            .foregroundColor(.black)
+                        Text(viewModel.tittle)
+                            .font(.title)
+                            .foregroundColor(.white)
                     }
                     
                 }.tint(.black)
+                .toolbarBackground(
+                    Color(#colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)),
+                    for: .navigationBar)
+                .toolbarBackground(.visible, for: .navigationBar)
                 .background(.white)
-        }.background(.white)
+        }
     }
 }
 
 struct ImageDetailsView_Previews: PreviewProvider {
     static var previews: some View {
-        ImageDetailsView(image: UIImage(named: "template-image"), location: "Corrientes")
+        ImageDetailsView(viewModel: .init(image: UIImage(named: "template-image"), location: "Corrientes"))
     }
 }
