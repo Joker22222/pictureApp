@@ -34,6 +34,8 @@ struct PicturesView: View {
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
                                 .cornerRadius(20)
+                                .shadow(color: .black, radius: 4, x: 4, y: 4)
+                                .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color.gray, lineWidth: 2))
                         }
                         ForEach(items) { item in
                             if let data = item.image {
@@ -45,12 +47,14 @@ struct PicturesView: View {
                                             .resizable()
                                             .aspectRatio(contentMode: .fill)
                                             .cornerRadius(20)
+                                            .shadow(color: .black.opacity(0.7), radius: 4, x: 4, y: 4)
+                                            .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color.gray.opacity(0.5), lineWidth: 1))
                                     }
                                 }
                             }
                         }
-                    }.padding(.init(top: 15, leading: 20, bottom: 0, trailing: 20))
-                }
+                    }.padding(.init(top: 15, leading: 10, bottom: 0, trailing: 10))
+                }.padding(.init(top: 20, leading: 0, bottom: 0, trailing: 0))
                 Text(viewModel.buttonText)
                     .font(.headline)
                     .frame(maxWidth: .infinity)
